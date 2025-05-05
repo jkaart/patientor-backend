@@ -1,21 +1,18 @@
-export interface Diagnosis {
-  code: string;
-  name: string;
-  latin?: string;
-}
+import { z } from 'zod';
+import {
+  DiagnosisSchema,
+  EntrySchema,
+  EntryWithoutIdSchema,
+  NewPatientSchema,
+  NonSensitivePatientSchema,
+  PatientSchema,
+  PatientWithoutEntriesIdSchema } from './schemas';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface Entry {
-}
-
-export interface Patient {
-  id: string,
-  name: string;
-  dateOfBirth: string;
-  ssn: string;
-  gender: string;
-  occupation: string;
-  entries: Entry[];
+export enum HealthCheckRating {
+  'Healthy' = 0,
+  'LowRisk' = 1,
+  'HighRisk' = 2,
+  'CriticalRisk' = 3
 }
 
 export enum Gender {
@@ -24,5 +21,11 @@ export enum Gender {
   Other = 'other',
 }
 
-export type NonSensitivePatient = Omit<Patient, 'ssn' | 'entries'>;
-export type NewPatient = Omit<Patient, 'id'>;
+export type NewPatient = z.infer< typeof NewPatientSchema>;
+export type NonSensitivePatient = z.infer< typeof NonSensitivePatientSchema>;
+export type EntryWithoutId = z.infer< typeof EntryWithoutIdSchema>;
+export type Patient = z.infer<typeof PatientSchema>;
+export type PatientWithoutEntriesId = z.infer<typeof PatientWithoutEntriesIdSchema>;
+export type Diagnosis = z.infer<typeof DiagnosisSchema>;
+
+export type Entry = z.infer<typeof EntrySchema>;

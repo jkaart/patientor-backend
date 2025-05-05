@@ -20,6 +20,23 @@ export default tseslint.config({
   ignores: ["build/*"],
   rules: {
     '@stylistic/semi': 'error',
+    '@stylistic/member-delimiter-style': ['error', {
+        'multiline': {
+          'delimiter': 'semi',
+          'requireLast': true
+        },
+        'singleline': {
+          'delimiter': 'semi',
+          'requireLast': true
+        },
+        'overrides': {
+          'interface': {
+            'multiline': {
+              'delimiter': 'semi',
+            }
+          }
+        }
+      }],
     '@typescript-eslint/no-unsafe-assignment': 'error',
     '@typescript-eslint/no-explicit-any': 'error',
     '@typescript-eslint/explicit-function-return-type': 'off',

@@ -1,7 +1,7 @@
 import express, { Response, Request } from 'express';
 import patientService from '../services/patientService';
-import { newPatientParser } from '../utils/middlewares';
-import { NewPatient, NonSensitivePatient, Patient } from '../types';
+import { newEntryParser, newPatientParser } from '../utils/middlewares';
+import { EntryWithoutId, NewPatient, NonSensitivePatient, Patient } from '../types';
 
 const router = express.Router();
 
@@ -22,6 +22,16 @@ router.get('/:id', (req: Request, res: Response) => {
     return;
   }
   res.json(patient);
+});
+
+router.post('/:id/entries', newEntryParser, (req: Request<{ id: string; }, unknown, EntryWithoutId, unknown>, res: Response) => {
+  const id = req.params.id;
+  const addedEntry = patientService.addEntry(req.body, id);
+  if (!addedEntry) {
+    res.status(404).json({ error: 'patient not found' });
+    return;
+  }
+  res.json(addedEntry);
 });
 
 export default router;
