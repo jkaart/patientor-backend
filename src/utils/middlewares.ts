@@ -23,7 +23,6 @@ export const newPatientParser = (req: Request, _res: Response, next: NextFunctio
 
 export const newEntryParser = (req: Request <unknown, unknown, EntryWithoutId>, _res: Response, next: NextFunction) => {
   try {
-    console.log(req.body);
     req.body.diagnosisCodes = parseDiagnosisCodes(req.body);
     EntryWithoutIdSchema.parse(req.body);
     next();
